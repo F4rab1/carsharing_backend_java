@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: carsharing
+  datasource:
+    url: jdbc:postgresql://localhost:5432/carsharing
+    username: postgres
+    password: postgres

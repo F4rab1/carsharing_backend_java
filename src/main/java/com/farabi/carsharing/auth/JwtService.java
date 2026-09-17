@@ -1,5 +1,6 @@
 package com.farabi.carsharing.auth;
 
+import com.farabi.carsharing.users.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,11 +15,13 @@ public class JwtService {
     @Value("${spring.jwt.secret}")
     private String secretKey;
 
-    public String generatetoken(String email) {
+    public String generatetoken(User user) {
         final long tokenExpiration = 86400; // 1 day in seconds
 
         return Jwts.builder()
-                .subject(email)
+                .subject(user.getId().toString())
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
@@ -34,6 +37,10 @@ public class JwtService {
         catch (JwtException ex) {
             return false;
         }
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return Long.valueOf(getClaims(token).getSubject());
     }
 
     public String getEmailFromToken(String token) {

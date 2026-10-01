@@ -3,6 +3,7 @@ package com.farabi.carsharing.auth;
 import com.farabi.carsharing.users.UserDto;
 import com.farabi.carsharing.users.UserMapper;
 import com.farabi.carsharing.users.UserRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
+@Tag(name = "Auth")
 public class AuthController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;

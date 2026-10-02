@@ -42,7 +42,7 @@ public class AuthController {
         var accessToken = jwtService.generateAccessToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        var cookie = new Cookie("refresh_token", refreshToken.toString());
+        var cookie = new Cookie("refreshToken", refreshToken.toString());
         cookie.setHttpOnly(true);
         cookie.setPath("/auth/refresh");
         cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration());  // 7 days
@@ -74,9 +74,9 @@ public class AuthController {
             return ResponseEntity.notFound().build();
         }
 
-        var userResponseDto = userMapper.toDto(user);
+        var userDto = userMapper.toDto(user);
 
-        return ResponseEntity.ok(userResponseDto);
+        return ResponseEntity.ok(userDto);
     }
 
     @PostMapping("/refresh")
@@ -96,7 +96,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("refresh_token", null);
+        Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/auth/refresh");

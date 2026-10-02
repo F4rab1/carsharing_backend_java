@@ -28,6 +28,12 @@ public class Jwt {
         return Role.valueOf(claims.get("role", String.class));
     }
 
+    public TokenType getTokenType() {
+        return TokenType.valueOf(
+                claims.get("type", String.class)
+        );
+    }
+
     public String toString() {
         return Jwts.builder().claims(claims).signWith(secretKey).compact();
     }

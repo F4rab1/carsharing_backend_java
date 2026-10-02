@@ -16,19 +16,32 @@ public class JwtService {
     private final JwtConfig jwtConfig;
 
     public Jwt generateAccessToken(User user) {
-        return generateToken(user, jwtConfig.getAccessTokenExpiration());
+        return generateToken(
+                user,
+                jwtConfig.getAccessTokenExpiration(),
+                TokenType.ACCESS
+        );
     }
 
     public Jwt generateRefreshToken(User user) {
-        return generateToken(user, jwtConfig.getRefreshTokenExpiration());
+        return generateToken(
+                user,
+                jwtConfig.getAccessTokenExpiration(),
+                TokenType.REFRESH
+        );
     }
 
-    private Jwt generateToken(User user, long tokenExpiration) {
+    private Jwt generateToken(
+            User user,
+            long tokenExpiration,
+            TokenType tokenType
+    ) {
         var claims = Jwts.claims()
                 .subject(user.getId().toString())
                 .add("email", user.getEmail())
                 .add("name", user.getName())
                 .add("role", user.getRole())
+                .add("type", tokenType.name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
                 .build();

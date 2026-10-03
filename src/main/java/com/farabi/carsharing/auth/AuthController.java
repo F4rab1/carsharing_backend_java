@@ -57,7 +57,7 @@ public class AuthController {
         System.out.println("Validate called");
         var token = authHeader.replace("Bearer ", "");
         var jwt = jwtService.parseToken(token);
-        if (jwt == null || jwt.isExpired()) {
+        if (jwt == null || jwt.isExpired() || jwt.getTokenType() != TokenType.ACCESS) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -84,7 +84,7 @@ public class AuthController {
             @CookieValue(value = "refreshToken") String refreshToken
     ) {
         var jwt = jwtService.parseToken(refreshToken);
-        if (jwt == null || jwt.isExpired()) {
+        if (jwt == null || jwt.isExpired() || jwt.getTokenType() != TokenType.REFRESH) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 

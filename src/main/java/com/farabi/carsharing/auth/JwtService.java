@@ -1,6 +1,5 @@
 package com.farabi.carsharing.auth;
 
-import com.farabi.carsharing.users.Role;
 import com.farabi.carsharing.users.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
